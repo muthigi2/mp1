@@ -1,1 +1,303 @@
 /* Your SCSS here. */
+$brand: royalblue;
+$ink: black;
+$muted: slategray;
+$bg: ghostwhite;
+
+$navHeightLarge: 88px;
+$navHeightSmall: 56px;
+
+/* ====== Base ====== */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: $ink;
+  background: white;
+}
+img, video { max-width: 100%; height: auto; display: block; }
+
+.container { width: min(1100px, 92%); margin: 0 auto; }
+.stripe { padding: clamp(32px, 7vh, 64px) 0; }
+
+.stripe h2 { margin: 0 0 14px; }
+
+/* ====== About ====== */
+.about .grid {
+  display: grid; grid-template-columns: 2fr 1fr; gap: 28px; align-items: start;
+}
+.about ul { margin: 12px 0 0; padding: 0 0 0 18px; }
+.about li { margin: 6px 0; }
+.about-cards { display: grid; gap: 12px; }
+.mini-card {
+  display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 12px;
+  background: white; border: 1px solid black; box-shadow: 0 6px 24px darkgray;
+}
+
+/* Vertical + horizontal centering for HERO */
+.hero {
+  min-height: calc(100vh - #{$navHeightLarge});
+  display: grid; place-items: center;
+  background: $bg;
+  text-align: center;
+
+  .title { font-size: clamp(32px, 6vw, 56px); margin: 0 0 8px; animation: fadeInUp .6s ease-in-out; }
+  .subtitle { color: $muted; margin: 0 0 18px; animation: fadeInUp .6s ease-in-out .08s; }
+}
+
+/* hero layout with profile */
+.about-hero { 
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 24px;
+  justify-items: center;
+  align-items: center;
+  text-align: left; 
+}
+.avatar { margin: 0; }
+.avatar img { 
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 10px 30px rgba(0,0,0,.12); 
+}
+.hero-points { 
+  margin: 0 0 18px;
+  padding: 0 0 0 18px; 
+}
+
+/* Buttons */
+.btn {
+  display: inline-block; 
+  padding: 10px 16px; 
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,.08); 
+  background: white; 
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+  text-decoration: none; 
+  color: $ink;
+  &:hover { transform: translateY(-1px); 
+    box-shadow: 0 6px 24px lightgray; }
+  &.primary { background: $brand; color: white; border-color: transparent; }
+}
+
+/* ====== Sticky Navbar + Resize on scroll ====== */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: $navHeightLarge;
+  padding: 0 clamp(12px, 4vw, 32px);
+  background: white;
+  border-bottom: 1px solid lightgray;
+  transition: height .2s ease, font-size .2s ease;
+
+  .brand { 
+    font-weight: 800;
+    letter-spacing: .3px; 
+    text-decoration: none; 
+    color: $ink; 
+    }
+  .nav-links { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 18px; 
+    }
+  a { color: $ink; text-decoration: none; padding: 6px 0; position: relative; }
+  a.active::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 3px; border-radius: 2px; background: $brand;
+  }
+
+  &.shrink { height: $navHeightSmall; font-size: .95rem; }
+}
+
+/* Ensure anchors scroll below nav */
+[id] { scroll-margin-top: $navHeightSmall + 12px; }
+
+/* ====== Carousel ====== */
+.carousel { 
+  position: relative; 
+  overflow: hidden;
+  border-radius: 16px; 
+  background: whitesmoke; 
+}
+
+.carousel .track { 
+  display: flex;
+  transition: transform .4s ease; 
+}
+
+.carousel .slide { 
+  min-width: 100%;
+  padding: 24px;
+  display: grid;
+  place-items: center;
+  text-align: center; 
+}
+
+.carousel .slide img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  max-height: none;
+  border-radius: 12px;
+  object-fit: cover;
+}
+.carousel .prev, .carousel .next {
+  position: absolute; 
+  top: 50%; 
+  transform: translateY(-50%);
+  width: 44px; 
+  height: 44px; 
+  border-radius: 50%; 
+  border: 0; 
+  background: white;
+  box-shadow: 0 3px 14px lightgray; 
+  cursor: pointer; 
+  z-index: 2;
+}
+.carousel .prev { left: 10px; }
+.carousel .next { right: 10px; }
+
+.carousel .prev:hover, .carousel .next:hover {
+    background-color: rgba(0,0,0,0.1);
+  }
+
+/* ====== Multi-column section ====== */
+.multicol {
+  columns: 3 320px; column-gap: 2rem;
+  p { break-inside: avoid; margin: 0 0 1rem; }
+}
+
+/* Favorites items inside multicol */
+.favorites .fav-item { break-inside: avoid; display: block; margin: 0 0 1.2rem; }
+.favorites img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 8px 26px lightgray;
+  margin: 0 0 10px;
+}
+.favorites h3 { margin: 6px 0 6px; }
+
+/* Force predictable row-major order for Favorites across widths */
+.multicol.favorites {
+  columns: initial;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem;
+}
+
+/* ====== Fixed background ====== */
+.fixed-image {
+  background-image: url('../assets/bg.jpg');
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  color: white;
+  .overlay { text-align: center; text-shadow: 0 2px 14px black; }
+}
+
+/* ====== Modal ====== */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  place-items: center;
+  z-index: 2000;
+  background: rgba(0,0,0,.5);
+  &.open { display: grid; }
+  .dialog {
+    background: white; color: $ink; padding: 24px; border-radius: 14px;
+    width: clamp(320px, 86vw, 760px); max-height: 84vh; overflow: auto;
+  box-shadow: 0 20px 60px gray;
+  }
+  .close { 
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 8px;
+  background: gainsboro;
+    cursor: pointer; 
+  }
+}
+
+/* ====== Experience cards ====== */
+.cards { 
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 16px; 
+}
+
+.exp-card {
+  display: grid; place-items: start; gap: 6px; padding: 18px; text-align: left;
+  background: white; border: 1px solid lightgray; border-radius: 14px; cursor: pointer;
+  box-shadow: 0 8px 28px rgba(0,0,0,.06); transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.exp-card:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(0,0,0,.10); border-color: rgba(0,0,0,.12); }
+.exp-card i { font-size: 24px; color: $brand; }
+.exp-card h3 { margin: 6px 0 0; }
+.exp-card small { color: $muted; }
+
+.modal-body { display: grid; gap: 12px; }
+.modal-body ul { margin: 0; padding: 0 0 0 18px; }
+.modal-body li { margin: 6px 0; }
+
+/* ====== Video ====== */
+#video video {
+  width: 100%;
+  max-width: 960px;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px lightgray;
+}
+
+/* ====== Footer + social icons ====== */
+.footer { background: dodgerblue; color: whitesmoke; }
+.footer .social { display: flex; gap: 16px; font-size: 24px; margin: 12px 0 18px; }
+.footer .social a { color: white; }
+
+/* ====== CSS3 Animation ====== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ====== Responsiveness tuning ====== */
+@media only screen and (max-width: 1366px) { }
+@media only screen and (max-width: 1024px) {
+  .nav-links { gap: 12px; }
+  .multicol { columns: 2 280px; }
+  .about .grid { grid-template-columns: 1.2fr 1fr; }
+  .cards { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  
+  .multicol.favorites {
+    columns: initial;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+  }
+  .multicol.favorites .fav-item { break-inside: auto; }
+}
+@media only screen and (max-width: 768px) {
+  .multicol { columns: 1; }
+  .carousel .slide img { aspect-ratio: 16 / 9; }
+  .about .grid { grid-template-columns: 1fr; }
+  .cards { grid-template-columns: 1fr; }
+  .about-hero { grid-template-columns: 1fr; text-align: center; }
+  .multicol.favorites { grid-template-columns: 1fr; }
+  .avatar { margin: 0 auto; }
+}
